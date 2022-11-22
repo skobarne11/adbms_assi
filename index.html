@@ -1,0 +1,446 @@
+MongoDb CRUD operations
+
+student@Student:~$ mongo
+MongoDB shell version: 2.4.9
+connecting to: test
+> use mydb
+switched to db mydb
+> db.createCollection("stud1");
+{ "ok" : 1 }
+> db.stud1.insert({name:"John",age:"20",class:"TE")};
+Thu Oct 20 15:21:29.319 SyntaxError: Unexpected token )
+> db.stud1.insert({name:"John",age:"20",class:"TE")}
+Thu Oct 20 15:21:33.332 SyntaxError: Unexpected token )
+> db.stud1.insert({name:"John",age:"20",class:"TE"});
+> db.stud1.insert({name:"JoY",age:"20",class:"SE"});
+> db.stud1.insert({name:"Steve",age:"19",class:"FE"});
+> db.stud1.insert({name:"Micheal",age:"22",class:"BE"});
+> db.stud1.find({"name":"Steve"})
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+> db.find({"age":"20"})
+Thu Oct 20 15:25:28.474 TypeError: Property 'find' of object mydb is not a function
+> db.stud1.find({"age":"20"})
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "name" : "John", "age" : "20", "class" : "TE" }
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+> db.stud1.find({"class":"TE"})
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "name" : "John", "age" : "20", "class" : "TE" }
+> db.stud1.find()
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "name" : "John", "age" : "20", "class" : "TE" }
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+> db.stud1.update({name:"John"},{$set:{age:"24"}})
+> db.stud1.find()
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "name" : "John", "age" : "24", "class" : "TE" }
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+> db.stud1.update({name:"John"},{$set:{class:"12th"}})
+> db.stud1.update({name:"John"},{$set:{age:"20"}})
+> db.stud1.find()
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "age" : "20", "class" : "12th", "name" : "John" }
+> db.stud1.update({name:"John"},{$set:{name:"John"}})
+> db.stud1.find()
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "age" : "20", "class" : "12th", "name" : "John" }
+> db.stud1.find()
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+{ "_id" : ObjectId("63511a304f6955705dba2625"), "age" : "20", "class" : "12th", "name" : "John" }
+> db.stud1.delete({name;"John"})
+Thu Oct 20 15:35:07.422 SyntaxError: Unexpected token ;
+> db.stud1.delete({name:"John"})
+Thu Oct 20 15:35:16.286 TypeError: Property 'delete' of object mydb.stud1 is not a function
+> db.stud1.deleteOne({name:"John"})
+Thu Oct 20 15:35:35.550 TypeError: Property 'deleteOne' of object mydb.stud1 is not a function
+> db.stud1.remove({name:"John"})
+> db.stud1.find()
+{ "_id" : ObjectId("63511a414f6955705dba2626"), "name" : "JoY", "age" : "20", "class" : "SE" }
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+> db.stud1.remove({name:"JoY" && age:"21")}
+Thu Oct 20 15:39:32.348 SyntaxError: Unexpected token :
+> db.stud1.remove({name:"JoY" && age:"21"})
+Thu Oct 20 15:39:40.108 SyntaxError: Unexpected token :
+> db.stud1.remove({name:"JoY" and  age:"21"})
+Thu Oct 20 15:39:57.188 SyntaxError: Unexpected identifier
+> db.stud1.remove({name:"JoY" $and age:"21"})
+Thu Oct 20 15:42:02.523 SyntaxError: Unexpected identifier
+> db.stud1.remove({name:"JoY"} $and {age:"21"}})
+Thu Oct 20 15:42:17.699 SyntaxError: Unexpected identifier
+> db.stud1.insert({name:"JoY",age:"19",class:"FE"});
+> db.stud1.remove{$and:[{name:"JoY"},{age="20"}]}
+Thu Oct 20 15:45:43.114 SyntaxError: Unexpected token {
+> db.stud1.remove({$and:[{name:"JoY"},{age="20"}]})
+Thu Oct 20 15:46:03.897 SyntaxError: Unexpected token =
+> db.stud1.remove({$and:[{name:"JoY"},{age:"20"}]})
+> db.stud1.find()
+{ "_id" : ObjectId("63511a964f6955705dba2627"), "name" : "Steve", "age" : "19", "class" : "FE" }
+{ "_id" : ObjectId("63511aaa4f6955705dba2628"), "name" : "Micheal", "age" : "22", "class" : "BE" }
+{ "_id" : ObjectId("63511f8c4f6955705dba2629"), "name" : "JoY", "age" : "19", "class" : "FE" }
+>
+
+ <!-- another one -->
+
+ >
+ >
+ >
+ dipti@dipti-VPCEG28FN:~$ mongo
+MongoDB shell version v3.6.3
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.6.3
+Server has startup warnings:
+2020-10-15T14:26:28.786+0530 I STORAGE [initandlisten]
+2020-10-15T14:26:28.786+0530 I STORAGE [initandlisten] ** WARNING:
+Using the XFS filesystem is strongly recommended with the WiredTiger storage
+engine
+2020-10-15T14:26:28.786+0530 I STORAGE [initandlisten] ** See
+http://dochub.mongodb.org/core/prodnotes-filesystem
+2020-10-15T14:26:36.417+0530 I CONTROL [initandlisten]
+2020-10-15T14:26:36.417+0530 I CONTROL [initandlisten] ** WARNING:
+Access control is not enabled for the database.
+2020-10-15T14:26:36.417+0530 I CONTROL [initandlisten] ** Read and
+write access to data and configuration is unrestricted.
+2020-10-15T14:26:36.417+0530 I CONTROL [initandlisten]
+>
+//USE DATABASE
+> use comp;
+switched to db comp
+//CREATE COLLECTION WEBSITE
+> db.createCollection('website');
+{ "ok" : 1 }
+//INSERT VALUES IN WEBSITE
+>
+db.website.insert({'roll':'1','name':'harsh','amount':1000,'ur
+l':'www.yahoo.com'});
+WriteResult({ "nInserted" : 1 })
+>db.website.insert({'roll':'2','name':'jitesh','amount':2000,'url':'www.yahoo.com
+'});
+WriteResult({ "nInserted" : 1 })
+>db.website.insert({'roll':'3','name':'rina','amount':3000,'url':'www.google.com'
+});
+WriteResult({ "nInserted" : 1 })
+>db.website.insert({'roll':'4','name':'ash','amount':4000,'url':'www.gmail.com'})
+;
+WriteResult({ "nInserted" : 1 })
+>db.website.insert({'roll':'5','name':'ash','amount':1000,'url':'www.pvg.com'});
+WriteResult({ "nInserted" : 1 })
+//SUM AGGREGATE
+> db.website.aggregate({$group:{_id:"$name","total":{$sum:"$amount"}}});
+{ "_id" : "ash", "total" : 5000 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 2000 }
+//AVG AGGREGATE
+> db.website.aggregate({$group:{_id:"$name","total":
+{$avg:"$amount"}}});
+{ "_id" : "ash", "total" : 2500 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 1000 }
+//MIN AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total":{$min:"$amount"}}});
+{ "_id" : "ash", "total" : 1000 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 1000 }
+//MAX AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total":{$max:"$amount"}}});
+{ "_id" : "ash", "total" : 4000 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 1000 }
+//FIRST AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total":{$first:"$amount"}}});
+{ "_id" : "ash", "total" : 4000 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 1000 }
+//LAST AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total":{$last:"$amount"}}});
+{ "_id" : "ash", "total" : 1000 }
+{ "_id" : "rina", "total" : 3000 }
+{ "_id" : "jitesh", "total" : 2000 }
+{ "_id" : "harsh", "total" : 1000 }
+//PUSH AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total":
+{$push:"$amount"}}});
+{ "_id" : "ash", "total" : [ 4000, 1000 ] }
+{ "_id" : "rina", "total" : [ 3000 ] }
+{ "_id" : "jitesh", "total" : [ 2000 ] }
+{ "_id" : "harsh", "total" : [ 1000, 1000 ] }
+//COUNT AGGREGATION
+> db.website.aggregate({$group:{_id:"$name","total": {$sum:1}}});
+{ "_id" : "ash", "total" : 2 }
+{ "_id" : "rina", "total" : 1 }
+{ "_id" : "jitesh", "total" : 1 }
+{ "_id" : "harsh", "total" : 2 }
+//ADDTOSET AGGREGATE
+> db.website.aggregate({$group:
+{_id:"$name","total"{$addToSet:"$amount"}}});
+{ "_id" : "ash", "total" : [ 1000, 4000 ] }
+{ "_id" : "rina", "total" : [ 3000 ] }
+{ "_id" : "jitesh", "total" : [ 2000 ] }
+{ "_id" : "harsh", "total" : [ 1000 ] }
+//INDEXING
+> db.createCollection('website1');
+{ "ok" : 1 }
+> db.website1.insert({'r':1,'name':'harsh'});
+WriteResult({ "nInserted" : 1 })
+> db.website1.find().pretty()
+{ "_id" : ObjectId("5ba3509a444926329738012d"), "roll" : 1,
+"name" : "harsh" }
+{ "_id" : ObjectId("5ba35293444926329738012e"), "roll" : 1,
+"name" : "harsh" }
+> db.website1.createIndex({'name':1})
+{ "numIndexesBefore" : 2, "note" : "all indexes already
+exist", "ok" : 1 }//CREATE INDEXING
+> db.website1.createIndex({'name':-1})
+{
+"createdCollectionAutomatically" : false,
+"numIndexesBefore" : 2,
+"numIndexesAfter" : 3,
+"ok" : 1
+}
+> db.website1.getIndexses()
+2018-09-20T13:28:09.628+0530 TypeError: Property 'getIndexses'
+of object om.website is not a
+function
+> db.website1.getIndexes()
+[
+{"v" : 1,
+"key" : {
+"_id" : 1
+},
+"name" : "_id_",
+"ns" : "harsh.website1"
+},
+{
+"v" : 1,
+"key" : {
+"name" : 1
+},
+"name" : "name_1",
+"ns" : "harsh.website1"
+},
+{
+"v" : 1,
+"key" : {
+"name" : -1
+},
+"name" : "name_-1",
+"ns" : "harsh.website1"
+}
+]
+> db.website1.createIndex({'name':-1})
+{ "numIndexesBefore" : 3, "note" : "all indexes already
+exist", "ok" : 1 }
+//DROP INDEX
+> db.website.dropIndex({'name':-1})
+{ "nIndexesWas" : 3, "ok" : 1 }>
+db.website1.dropIndex({'name':1})
+{ "nIndexesWas" : 2, "ok" : 1 }> db.website1.dropIndex({'name':1})
+{
+"nIndexesWas" : 1,
+"ok" : 0,
+"errmsg" : "can't find index with key:{ name: 1.0 }"
+}
+//GET INDEXING
+> db.website1.getIndexes()
+[
+{
+"v" : 1,
+"key" : {
+"_id" : 1
+},
+"name" : "_id_",
+"ns" : "harsh.website1"
+}
+]
+> db.website1.find().pretty()
+{ "_id" : ObjectId("5ba3509a444926329738012d"), "roll" : 1,
+"name" : "harsh" }
+{ "_id" : ObjectId("5ba35293444926329738012e"), "roll" : 1,
+"name" : "harsh" }
+>
+> db.website1.createIndex({'name':1})
+{
+"createdCollectionAutomatically" : false,
+"numIndexesBefore" : 1,
+"numIndexesAfter" : 2,
+"ok" : 1
+}
+> db.website1.getIndexes()[
+{
+"v" : 1,
+"key" : {
+"_id" : 1
+},
+"name" : "_id_",
+"ns" : "harsh.website1"
+},
+{
+"v" : 1,
+"key" : {"name" : 1
+},
+"name" : "name_1",
+"ns" : "harsh.website1"
+}
+]
+> db.website1.dropIndex({'name':1})
+{ "nIndexesWas" : 2, "ok" : 1 }
+> db.website1.getIndexes()
+[
+{
+"v" : 1,
+"key" : {
+"_id" : 1
+},
+"name" : "_id_",
+"ns" : "harsh.website1"
+}
+]
+> db.website1.createIndex({'name':1,'r':-1})
+{"createdCollectionAutomatically" : false,
+"numIndexesBefore" : 1,
+"numIndexesAfter" : 2,
+"ok" : 1
+}
+> db.website1.getIndexes()
+[
+{
+"v" : 1,
+"key" : {
+"_id" : 1
+},
+"name" : "_id_",
+"ns" : "harsh.website1"
+},
+{
+"v" : 1,
+"key" : {
+"name" : 1,
+"r" : -1
+},
+"name" : "name_1_r_-1",
+"ns" : "harsh.website1"
+}
+] (i-search)`db.website1.insert({'roll':1,'name':'harsh'});':
+
+<!-- map reduce 1 -->
+>
+>
+>
+>
+>
+
+
+
+1)Create Map_reduce collection
+
+db.createCollection("Map_Reduce")
+
+2)Switch to Map reduce collection
+use Map_Reduce
+
+
+
+3)Insert Multiple records in Orders document
+db.orders.insertMany([
+   { _id: 1, cust_id: "Ant O. Knee", ord_date: new Date("2020-03-01"), price: 25, items: [ { sku: "oranges", qty: 5, price: 2.5 }, { sku: "apples", qty: 5, price: 2.5 } ], status: "A" },
+   { _id: 2, cust_id: "Ant O. Knee", ord_date: new Date("2020-03-08"), price: 70, items: [ { sku: "oranges", qty: 8, price: 2.5 }, { sku: "chocolates", qty: 5, price: 10 } ], status: "A" },
+   { _id: 3, cust_id: "Busby Bee", ord_date: new Date("2020-03-08"), price: 50, items: [ { sku: "oranges", qty: 10, price: 2.5 }, { sku: "pears", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 4, cust_id: "Busby Bee", ord_date: new Date("2020-03-18"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 5, cust_id: "Busby Bee", ord_date: new Date("2020-03-19"), price: 50, items: [ { sku: "chocolates", qty: 5, price: 10 } ], status: "A"},
+   { _id: 6, cust_id: "Cam Elot", ord_date: new Date("2020-03-19"), price: 35, items: [ { sku: "carrots", qty: 10, price: 1.0 }, { sku: "apples", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 7, cust_id: "Cam Elot", ord_date: new Date("2020-03-20"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 8, cust_id: "Don Quis", ord_date: new Date("2020-03-20"), price: 75, items: [ { sku: "chocolates", qty: 5, price: 10 }, { sku: "apples", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 9, cust_id: "Don Quis", ord_date: new Date("2020-03-20"), price: 55, items: [ { sku: "carrots", qty: 5, price: 1.0 }, { sku: "apples", qty: 10, price: 2.5 }, { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+   { _id: 10, cust_id: "Don Quis", ord_date: new Date("2020-03-23"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" }
+])
+
+
+
+4)Create Map Function:
+var mapFunction1 = function() {
+   emit(this.cust_id, this.price);
+};
+
+
+5)Create Reduce Function:
+var reduceFunction1 = function(keyCustId, valuesPrices) {
+   return Array.sum(valuesPrices);
+};
+
+
+
+6)Perform map-reduce on all documents in the orders collections
+
+db.orders.mapReduce(
+   mapFunction1,
+   reduceFunction1,
+   { out: "map_reduce_example" }
+)
+
+7)Query the map_reduce_example collection
+
+Output:
+db.map_reduce_example.find().sort( { _id: 1 } )
+{ "_id" : "Ant O. Knee", "value" : 95 }
+{ "_id" : "Busby Bee", "value" : 125 }
+{ "_id" : "Cam Elot", "value" : 60 }
+{ "_id" : "Don Quis", "value" : 155 }
+
+
+
+<!-- map reduce 2 -->
+>
+>
+>
+>
+1)Create dataset
+
+db.students.insertMany([
+    {_id: 1,roll_no:100,student_name:"Neel",subject:"Maths",marks: 25},
+    {_id: 2,roll_no:100,student_name:"Neel",subject:"English",marks: 56},
+    {_id: 3,roll_no:101,student_name:"Ayush",subject:"Science",marks: 34},
+    {_id: 4,roll_no:101,student_name:"Ayush",subject:"History",marks: 78},
+    {_id: 5,roll_no:102,student_name:"Atharva",subject:"Maths",marks: 98},
+    {_id: 6,roll_no:102,student_name:"Atharva",subject:"Geography",marks: 68},
+    {_id: 7,roll_no:103,student_name:"Prathmesh",subject:"Science",marks: 52},
+    {_id: 8,roll_no:103,student_name:"Prathmesh",subject:"Geography",marks: 63},
+    {_id: 9,roll_no:104,student_name:"Labhesh",subject:"Science",marks: 52},
+    {_id: 10,roll_no:104,student_name:"Labhesh",subject:"Maths",marks: 59},
+    {_id: 11,roll_no:105,student_name:"Yash",subject:"Science",marks: 63},
+    {_id: 12,roll_no:106,student_name:"Yash",subject:"History",marks: 73}
+ ])
+
+
+4)Create Map Function:
+var mapFunction2 = function() {
+   emit(this.student_name, this.marks);
+};
+
+5)Create Reduce Function:
+var reduceFunction2 = function(keyStudName, valuesMarks) {
+   return Array.sum(valuesMarks);
+};
+
+db.students.mapReduce(
+   mapFunction2,
+   reduceFunction2,
+   { out: "map_reduce_student" }
+)
+
+db.map_reduce_student.find().sort( { _id: 1 } )
+
+
+Science
+History
+Geography
